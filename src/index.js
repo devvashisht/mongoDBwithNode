@@ -4,13 +4,65 @@ const User = require("./models/user");
 const Task = require("./models/tasks");
 const userRouter = require("./routers/user");
 const taskRouter = require("./routers/tasks");
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
+// app.use((req, res, next) => {
+//   console.log("middleware", req.method, req.path);
+//   if (req.method === "GET") {
+//     return res.send("get not allowed");
+//   }
+//   next();
+// });
 
+// app.use((req, res, net) => {
+//   return res.status(503).send("site undermainteince");
+// });
+
+app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
+
+app.listen(port, () => {
+  console.log("server is up on port " + port);
+});
+
+const task = require("./models/tasks");
+const user = require("./models/user");
+const main = async () => {
+  // const task = await Task.findById("5efe606cdc46a0325c52c1ac");
+  // console.log(task);
+  // await task.populate("owner").execPopulate();
+  // console.log(task.owner);
+  const user = await User.findById("5efe5f1e7f13ad5ac02e1012");
+  await user.populate("tasks").execPopulate();
+  console.log(user.tasks);
+};
+main();
+const jwt = require("jsonwebtoken");
+const myFunction = async () => {
+  const token = jwt.sign({ _id: "12321" }, "thisismynew", {
+    expiresIn: "7 days",
+  });
+  // console.log("Token", token);
+  const data = jwt.verify(token, "thisismynew");
+  // console.log("data", data);
+};
+
+myFunction();
+
+//const bcrypt = require("bcryptjs");
+// const myFunction = async () => {
+//   const passowrd = "EncryptPasswod";
+//   const hashedPassword = await bcrypt.hash(passowrd, 8);
+//   console.log(passowrd);
+//   console.log(hashedPassword);
+//   const ismatch = await bcrypt.compare("EncryptPasswod", hashedPassword);
+//   console.log(ismatch);
+// };
+
+// myFunction();
 
 // app.post("/users", async (req, res) => {
 //   const user = new User(req.body);
@@ -199,10 +251,6 @@ app.use(taskRouter);
 //     res.status(500).send(e);
 //   }
 // });
-
-app.listen(port, () => {
-  console.log("server is up on port " + port);
-});
 
 // app.post("/users", (req, res) => {
 //   const user = new User(req.body);
