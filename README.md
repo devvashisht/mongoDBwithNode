@@ -71,9 +71,15 @@ router.get("/tasks", auth, async (req, res) => {
     res.send(user.avatar);
 ````
 
+s
+
 - ## Sharp : image manipulation npm package
 
 **Sending Email**
 
-- ## SENDRID :
-  -
+- ## SENDRID :-
+
+**Eniviroment variable**
+**MongoDB production using mongoAtlas service**
+**Mongo Compass ui tool instead of Robobt**
+**Deploy on heroku**

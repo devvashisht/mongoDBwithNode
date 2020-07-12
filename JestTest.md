@@ -40,6 +40,7 @@ test('async await example', async()=>{
 ***Super Test LIBRARY**
   - request to end point and chain them
   - npm i superTest@1323
+
 ```javascript
 const request =  require('superTest')
 const app = require('app')
@@ -49,3 +50,18 @@ test('signup a new user', async() =>{
   }).expect(201)
 })
 ````
+
+- **JEST LIFECYCLE METHOD** : setup and test Down
+  - `beforeEach` : beforeEach(async()=> {
+    await //do stuff before every test
+    })
+  - `AfteEach`
+
+**_MOCKING LIBRARY_**
+
+- create mock directory
+- `sendGrid` : module.export = {setApiKey (){},send(){}}
+- `Fixture` : environment for test like attaching image
+- `tobe` uses `===` , and `toEqual` check property equality instead of reference we should use it for object or array equality
+
+* **Setup test suite** -
