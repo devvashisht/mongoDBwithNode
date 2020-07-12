@@ -7,7 +7,31 @@ const taskRouter = require("./routers/tasks");
 
 const app = express();
 const port = process.env.PORT || 3000;
-
+const multer = require("multer");
+const upload = multer({
+  dest: "images",
+  limits: {
+    fileSize: 1000000,
+  },
+  fileFilter(req, file, cb) {
+    //  if (!file.originalname.endsWith(".pdf")) {
+    if (!file.originalname.match(/\.(doc|docx)$/)) {
+      return cb(new Error("Please upload a pdf"));
+    }
+    cb(undefined, true);
+    //cb(new Error('File must be a PDF'))
+  },
+});
+app.post(
+  "/upload",
+  upload.single("upload"),
+  (req, res) => {
+    res.send();
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
 // app.use((req, res, next) => {
 //   console.log("middleware", req.method, req.path);
 //   if (req.method === "GET") {
@@ -30,27 +54,27 @@ app.listen(port, () => {
 
 const task = require("./models/tasks");
 const user = require("./models/user");
-const main = async () => {
-  // const task = await Task.findById("5efe606cdc46a0325c52c1ac");
-  // console.log(task);
-  // await task.populate("owner").execPopulate();
-  // console.log(task.owner);
-  const user = await User.findById("5efe5f1e7f13ad5ac02e1012");
-  await user.populate("tasks").execPopulate();
-  console.log(user.tasks);
-};
-main();
-const jwt = require("jsonwebtoken");
-const myFunction = async () => {
-  const token = jwt.sign({ _id: "12321" }, "thisismynew", {
-    expiresIn: "7 days",
-  });
-  // console.log("Token", token);
-  const data = jwt.verify(token, "thisismynew");
-  // console.log("data", data);
-};
+// const main = async () => {
+//   // const task = await Task.findById("5efe606cdc46a0325c52c1ac");
+//   // console.log(task);
+//   // await task.populate("owner").execPopulate();
+//   // console.log(task.owner);
+//   const user = await User.findById("5efe5f1e7f13ad5ac02e1012");
+//   await user.populate("tasks").execPopulate();
+//   console.log(user.tasks);
+// };
+// main();
+// const jwt = require("jsonwebtoken");
+// const myFunction = async () => {
+//   const token = jwt.sign({ _id: "12321" }, "thisismynew", {
+//     expiresIn: "7 days",
+//   });
+//   // console.log("Token", token);
+//   const data = jwt.verify(token, "thisismynew");
+//   // console.log("data", data);
+// };
 
-myFunction();
+//myFunction();
 
 //const bcrypt = require("bcryptjs");
 // const myFunction = async () => {
